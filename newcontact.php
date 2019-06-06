@@ -2,7 +2,8 @@
 include('database.php');
 session_start();
 
-$error = "";
+$error = '';
+$message = '';
 
 if (isset($_SESSION['user_id'])) {
 
@@ -56,33 +57,30 @@ if (isset($_SESSION['user_id'])) {
             $error .= "Geben Sie bitte einen Notiz mit max 100 Zeichen ein.<br />";
         }
 
-
+        $user = $_SESSION['email'];
 
         if (empty($error)) {
             // INPUT Query erstellen, welches firstname, lastname, username, password, email in die Datenbank schreibt
-            $query = "INSERT INTO `contacts` (`firstname`, `lastname`, `email`, `tel`, `type`, `note`) VALUES (?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO `contacts` (`firstname`, `lastname`, `email`, `tel`, `type`, `note`, `user`) VALUES (?, ?, ?, ?, ?, ?, ?)";
             // Query vorbereiten mit prepare();
             $stmt = $mysqli->prepare($query);
             // Parameter an Query binden mit bind_param();
-            $stmt->bind_param('ssssss', $firstname, $lastname, $email, $tel, $type, $note);
+            $stmt->bind_param('sssssss', $firstname, $lastname, $email, $tel, $type, $note, $user);
             // Query ausführen mit execute();
-            
-            if ($stmt->execute()){
+
+            if ($stmt->execute()) {
                 // Verbindung schliessen
                 $stmt->close();
-                // Weiterleitung auf login.php
-                header('location: contactsuccess.php');
+                $message = 'Kontakt gespeichert!';
             } else {
-                // Verbindung schliessen
-                echo $stmt->error;
-                $stmt->close();
-                die("exec failed");
+                $error = "Fehler beim speichern. Bitte erneut versuchen!";
             }
         }
     }
 } else {
     header('location: login.php');
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -124,7 +122,7 @@ if (isset($_SESSION['user_id'])) {
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item">
-                    <a class="nav-link" href=""><i class="fas fa-user mr-2"> <small><?php echo $_SESSION['email']; ?></small></i></a>
+                    <a class="nav-link" href="changepwd.php"><i class="fas fa-user mr-2"> <small><?php echo $_SESSION['email']; ?></small></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Abmelden</a>
@@ -144,7 +142,9 @@ if (isset($_SESSION['user_id'])) {
                         <p class="h4 mb-4 text-center">Kontakt erstellen</p>
 
                         <?php
-                        if (!empty($error)) {
+                        if (!empty($message)) {
+                            echo "<br><div class=\"alert alert-success\" role=\"alert\">" . $message . "</div>";
+                        } else if (!empty($error)) {
                             echo "<br><div class=\"alert alert-danger\" role=\"alert\">" . $error . "</div>";
                         }
                         ?>
@@ -169,7 +169,7 @@ if (isset($_SESSION['user_id'])) {
                         <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" placeholder="Notiz" name="connote" minlength="1" maxlength="100"></textarea>
 
                         <button class="btn btn-info btn-block mt-4" type="submit">Speichern</button>
-                        <button class="btn btn-danger btn-block mt-4" type="danger" href="index.php">Abbrechen</button>
+                        <button class="btn btn-danger btn-block mt-4" type="danger">Abbrechen</button>
                     </form>
                 </div>
             </div>

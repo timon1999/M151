@@ -46,7 +46,7 @@ if (!isset($_SESSION['user_id'])) {
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item">
-                    <a class="nav-link" href=""><i class="fas fa-user mr-2"> <small><?php echo $_SESSION['email']; ?></small></i></a>
+                    <a class="nav-link" href="changepwd.php"><i class="fas fa-user mr-2"> <small><?php echo $_SESSION['email']; ?></small></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Abmelden</a>
@@ -59,13 +59,16 @@ if (!isset($_SESSION['user_id'])) {
 <body>
     <table class="table striped">
         <tr class="header">
-            <td><b>Id</b></td>
-            <td><b>Name</b></td>
+            <td><b>Vorname</b></td>
+            <td><b>Nachname</b></td>
             <td><b>Tel.</b></td>
+            <td><b>Mail</b></td>
+            <td><b>Typ</b></td>
+            <td><b>Notiz</b></td>
         </tr>
         <?php
-        $query = "select * from contacts";
-        // TODO: Query vorbereiten mit prepare();
+        $query = 'select * from contacts';
+        //  Query vorbereiten mit prepare();
         $result = $mysqli->query($query);
 
         if ($result->num_rows > 0) {
@@ -75,8 +78,15 @@ if (!isset($_SESSION['user_id'])) {
                 echo "<td>" . $row['firstname'] . "</td>";
                 echo "<td>" . $row['lastname'] . "</td>";
                 echo "<td>" . $row['tel'] . "</td>";
+                echo "<td>" . $row['email'] . "</td>";
+                echo "<td>" . $row['type'] . "</td>";
+                echo "<td>" . $row['note'] . "</td>";
                 echo "</tr>";
-            }
+            } 
+        } else {
+            echo "<tr>";
+            echo "<td>". 'Keine Kontakte vorhanden!' . "</td>";
+            echo "</tr>";
         }
 
         ?>

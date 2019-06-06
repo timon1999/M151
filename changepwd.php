@@ -8,6 +8,39 @@ if (!isset($_SESSION['user_id'])) {
 
 include('database.php');
 
+
+
+// SELECT Query erstellen, email und passwort mit Datenbank vergleichen
+$query = 'SELECT * FROM users WHERE password=?';
+// prepare()
+$stmt = $mysqli->prepare($query);
+// bind_param()
+$stmt->bind_param('s', $password);
+// execute()
+$stmt->execute();
+// Passwort auslesen und mit dem eingegeben Passwort vergleichen
+$result = $stmt->get_result();
+
+$row = $result->fetch_assoc();
+
+if (password_verify($password, $row['password'])) {
+    if (isset($_POST['newpassword']) && !empty(trim($_POST['newpassword'])) && $_POST['newpassword'] === $_POST['newpasswordrepeat']) {
+        $password = trim($_POST['password']);
+        $newpassword = $_POST['newpassword'];
+        //entspricht das passwort unseren vorgaben? (minimal 8 Zeichen, Zahlen, Buchstaben, keine Zeilenumbrüche, mindestens ein Gross- und ein Kleinbuchstabe)
+        if (!preg_match("/(?=^.{8,}$)((?=.*\d+)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/", $password)) {
+            $error .= "Passwort: Mindestlänge 8, min. 1 Gross- und Kleinbuchstabe, Zahl und ein Zeichen";
+        } else {
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $query = 'UPDATE users SET password = ? WHERE password = ?';
+            $stmt = $mysqli->prepare($query);
+            $stmt->bind_param('ss', $password, $newpassword);
+            $stmt->execute();
+        }
+    } else {
+        $error = "das Kennwort ist falsch";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +54,6 @@ include('database.php');
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <link rel="stylesheet" href="index.css">
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -39,7 +71,7 @@ include('database.php');
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
@@ -67,6 +99,28 @@ include('database.php');
             <div class="row pt-5">
             </div>
         </div>
+
+        <div class="card-body px-lg-5 pt-0 mx-auto mt-5" style="max-width: 500px">
+            <!-- Default form login -->
+            <form class="text-center border border-light p-5" method="POST" action="changepwd.php">
+
+                <p class="h4 mb-4">Passwort ändern</p>
+
+                <!-- Altes Password -->
+                <input type="password" id="password" name="oldpassword" class="form-control mb-4" placeholder="Altes Passwort">
+
+                <input type="password" id="password" name="newpassword" class="form-control mb-4" placeholder="Neues Passwort">
+                <input type="password" id="password" name="newrepeatpassword" class="form-control mb-4" placeholder="Passwort bestätigen">
+
+                <div class="d-flex justify-content-around">
+                    <div>
+                        <!-- Forgot password -->
+                        <a href="forgot.html">Passwort vergessen?</a>
+                    </div>
+                </div>
+
+                <!-- Sign in button -->
+                <button class="btn btn-primary btn-block my-4" type="submit">Passwort ändern</button>
     </main>
 
     <!-- SCRIPTS -->

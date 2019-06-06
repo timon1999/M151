@@ -1,12 +1,7 @@
 body {
     margin: 0;
-    padding: 0;
-    
-}
-
-#bg-img {
-    height: 1080px;
-    width: 1920pxs;
+    padding: 0; 
     background-image: url(img/home.jpg);
     background-repeat: no-repeat;
+    background-size: cover;
 }
