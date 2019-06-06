@@ -57,7 +57,29 @@ if (!isset($_SESSION['user_id'])) {
 </header>
 
 <body>
-    <h1>Lassen sie ihre kontakte anzeigen!</h1>
+    <table class="table striped">
+        <tr class="header">
+            <td><b>Id</b></td>
+            <td><b>Name</b></td>
+            <td><b>Tel.</b></td>
+        </tr>
+        <?php
+        $query = "select * from contacts";
+        // TODO: Query vorbereiten mit prepare();
+        $result = $mysqli->query($query);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row['firstname'] . "</td>";
+                echo "<td>" . $row['lastname'] . "</td>";
+                echo "<td>" . $row['tel'] . "</td>";
+                echo "</tr>";
+            }
+        }
+
+        ?>
 </body>
 
 </html>

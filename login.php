@@ -36,6 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
         $error .= "Geben Sie bitte das Passwort an.<br />";
     }
 
+    
+
     // kein fehler
     if (empty($error)) {
         // SELECT Query erstellen, email und passwort mit Datenbank vergleichen
@@ -51,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
 
         $row = $result->fetch_assoc();
 
-        if ($password === $row['password']) {
+        if (password_verify($password, $row['password'])) {
             $_SESSION['user_id']=$row['id'];
             $_SESSION['email']=$row['email'];
             header('location: index.php');
@@ -93,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
                 <p class="h4 mb-4">Login</p>
 
                 <!-- Email -->
-                <input type="email" id="email" name="email" class="form-control mb-4" placeholder="E-mail">
+                <input type="email" id="email" name="email" class="form-control mb-4" placeholder="E-mail" <?php if (isset($_POST['email'])) {echo 'value="' . $_POST['email'] . '"';} ?>>
 
                 <!-- Password -->
                 <input type="password" id="password" name="password" class="form-control mb-4" placeholder="********">

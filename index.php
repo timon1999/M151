@@ -15,7 +15,7 @@ include('database.php');
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Home</title>
 
@@ -59,12 +59,11 @@ include('database.php');
             </ul>
         </div>
     </nav>
-
 </header>
 
 <body>
     <main>
-        <div class="container" style="height:1500px;">
+        <div class="container" id="bg-img">
             <div class="row pt-5">
             </div>
         </div>

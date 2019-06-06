@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (!preg_match("/(?=^.{8,}$)((?=.*\d+)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/", $password)) {
       $error .= "Passwort: Mindestlänge 8, min. 1 Gross- und Kleinbuchstabe, Zahl und ein Zeichen";
     }
+    $password = password_hash($password, PASSWORD_DEFAULT);
   } else {
     // Ausgabe Fehlermeldung
     $error .= "Geben Sie bitte ein korrektes Passwort ein.<br />";

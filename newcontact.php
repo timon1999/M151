@@ -18,42 +18,42 @@ if (isset($_SESSION['user_id'])) {
 
         if (isset($_POST['conlastname']) && !empty(trim($_POST['conlastname'])) && strlen(trim($_POST['conlastname'])) <= 30) {
             // Spezielle Zeichen Escapen > Script Injection verhindern
-            $firstname = htmlspecialchars(trim($_POST['conlastname']));
+            $lastname = htmlspecialchars(trim($_POST['conlastname']));
         } else {
             // Ausgabe Fehlermeldung
-            $error .= "Geben Sie bitte einen korrekten Vornamen ein.<br />";
+            $error .= "Geben Sie bitte einen korrekten Nachnamen ein.<br />";
         }
 
         if (isset($_POST['conemail']) && !empty(trim($_POST['conemail'])) && strlen(trim($_POST['conemail'])) <= 30) {
             // Spezielle Zeichen Escapen > Script Injection verhindern
-            $firstname = htmlspecialchars(trim($_POST['conemail']));
+            $email = htmlspecialchars(trim($_POST['conemail']));
         } else {
             // Ausgabe Fehlermeldung
-            $error .= "Geben Sie bitte einen korrekten Vornamen ein.<br />";
+            $error .= "Geben Sie bitte einen korrekte Mail ein.<br />";
         }
 
         if (isset($_POST['contel']) && !empty(trim($_POST['contel'])) && strlen(trim($_POST['contel'])) <= 30) {
             // Spezielle Zeichen Escapen > Script Injection verhindern
-            $firstname = htmlspecialchars(trim($_POST['contel']));
+            $tel = htmlspecialchars(trim($_POST['contel']));
         } else {
             // Ausgabe Fehlermeldung
-            $error .= "Geben Sie bitte einen korrekten Vornamen ein.<br />";
+            $error .= "Geben Sie bitte einen korrekte Telefonnummer ein.<br />";
         }
 
         if (isset($_POST['contype']) && !empty(trim($_POST['contype'])) && strlen(trim($_POST['contype'])) <= 30) {
             // Spezielle Zeichen Escapen > Script Injection verhindern
-            $firstname = htmlspecialchars(trim($_POST['contype']));
+            $type = htmlspecialchars(trim($_POST['contype']));
         } else {
             // Ausgabe Fehlermeldung
-            $error .= "Geben Sie bitte einen korrekten Vornamen ein.<br />";
+            $error .= "Geben Sie bitte einen korrekten Typ ein.<br />";
         }
 
-        if (isset($_POST['connote']) && !empty(trim($_POST['connote'])) && strlen(trim($_POST['connote'])) <= 30) {
+        if (isset($_POST['connote']) && !empty(trim($_POST['connote'])) && strlen(trim($_POST['connote'])) <= 100) {
             // Spezielle Zeichen Escapen > Script Injection verhindern
-            $firstname = htmlspecialchars(trim($_POST['connote']));
+            $note = htmlspecialchars(trim($_POST['connote']));
         } else {
             // Ausgabe Fehlermeldung
-            $error .= "Geben Sie bitte einen korrekten Vornamen ein.<br />";
+            $error .= "Geben Sie bitte einen Notiz mit max 100 Zeichen ein.<br />";
         }
 
 
@@ -66,13 +66,15 @@ if (isset($_SESSION['user_id'])) {
             // Parameter an Query binden mit bind_param();
             $stmt->bind_param('ssssss', $firstname, $lastname, $email, $tel, $type, $note);
             // Query ausführen mit execute();
-            if ($stmt->execute()) {
+            
+            if ($stmt->execute()){
                 // Verbindung schliessen
                 $stmt->close();
                 // Weiterleitung auf login.php
                 header('location: contactsuccess.php');
             } else {
                 // Verbindung schliessen
+                echo $stmt->error;
                 $stmt->close();
                 die("exec failed");
             }
