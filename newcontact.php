@@ -57,7 +57,7 @@ if (isset($_SESSION['user_id'])) {
             $error .= "Geben Sie bitte einen Notiz mit max 100 Zeichen ein.<br />";
         }
 
-        $user = $_SESSION['email'];
+        $user = $_SESSION['user_id'];
 
         if (empty($error)) {
             // INPUT Query erstellen, welches firstname, lastname, username, password, email in die Datenbank schreibt
@@ -65,7 +65,7 @@ if (isset($_SESSION['user_id'])) {
             // Query vorbereiten mit prepare();
             $stmt = $mysqli->prepare($query);
             // Parameter an Query binden mit bind_param();
-            $stmt->bind_param('sssssss', $firstname, $lastname, $email, $tel, $type, $note, $user);
+            $stmt->bind_param('ssssssi', $firstname, $lastname, $email, $tel, $type, $note, $user);
             // Query ausführen mit execute();
 
             if ($stmt->execute()) {
@@ -159,8 +159,8 @@ if (isset($_SESSION['user_id'])) {
 
                         <label for="defaultSelect">Typ</label>
                         <select id="defaultSelect" class="browser-default custom-select mb-4" name="contype">
-                            <option value="">Sonstiges</option>
-                            <option value="1" selected="">Familie</option>
+                            <option value="0">Sonstiges</option>
+                            <option value="1">Familie</option>
                             <option value="2">Firma</option>
                             <option value="3">Freunde</option>
                             <option value="4">Arzt</option>

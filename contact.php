@@ -58,38 +58,55 @@ if (!isset($_SESSION['user_id'])) {
 
 <body>
     <table class="table striped">
-        <tr class="header">
-            <td><b>Vorname</b></td>
-            <td><b>Nachname</b></td>
-            <td><b>Tel.</b></td>
-            <td><b>Mail</b></td>
-            <td><b>Typ</b></td>
-            <td><b>Notiz</b></td>
-        </tr>
-        <?php
-        $query = 'select * from contacts';
-        //  Query vorbereiten mit prepare();
-        $result = $mysqli->query($query);
+        <thead>
+            <tr class="header">
+                <td><b>Vorname</b></td>
+                <td><b>Nachname</b></td>
+                <td><b>Tel.</b></td>
+                <td><b>Mail</b></td>
+                <td><b>Typ</b></td>
+                <td><b>Notiz</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $user = $_SESSION['user_id'];
+            $query = 'select * from contacts WHERE user=?';
+            $stmt = $mysqli->prepare($query);
+            $stmt->bind_param('i', $user);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while ($row = $result->fetch_assoc()) {
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row['firstname'] . "</td>";
+                    echo "<td>" . $row['lastname'] . "</td>";
+                    echo "<td>" . $row['tel'] . "</td>";
+                    echo "<td>" . $row['email'] . "</td>";
+                    echo "<td>" . $row['type'] . "</td>";
+                    echo "<td>" . $row['note'] . "</td>";
+                    echo "</tr>";
+                }
+            } else {
                 echo "<tr>";
-                echo "<td>" . $row['firstname'] . "</td>";
-                echo "<td>" . $row['lastname'] . "</td>";
-                echo "<td>" . $row['tel'] . "</td>";
-                echo "<td>" . $row['email'] . "</td>";
-                echo "<td>" . $row['type'] . "</td>";
-                echo "<td>" . $row['note'] . "</td>";
+                echo "<td>" . 'Keine Kontakte vorhanden!' . "</td>";
                 echo "</tr>";
-            } 
-        } else {
-            echo "<tr>";
-            echo "<td>". 'Keine Kontakte vorhanden!' . "</td>";
-            echo "</tr>";
-        }
+            }
 
-        ?>
+            ?>
+        </tbody>
+    </table>
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="dist/js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="dist/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="dist/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="dist/js/mdb.min.js"></script>
 </body>
 
 </html>
