@@ -1,7 +1,12 @@
 <?php
 
-// TODO: Verbindung zur Datenbank einbinden
+// Verbindung zur Datenbank einbinden
 include('database.php');
+
+// Session
+session_start();
+session_regenerate_id(true);
+
 // Initialisierung
 $error = $message =  '';
 $firstname = $lastname = $email = $password = '';

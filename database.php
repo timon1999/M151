@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost'; // host
-$username = 'root'; // username
-$password = ''; // password
+$username = 'Contactuser'; // username
+$password = 'wYwFJq5IkxDR8ueK'; // password
 $database = 'contact'; // database
 
 // mit Datenbank verbinden

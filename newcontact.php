@@ -1,6 +1,7 @@
 <?php
 include('database.php');
 session_start();
+session_regenerate_id(true);
 
 $error = '';
 $message = '';
@@ -158,13 +159,8 @@ if (isset($_SESSION['user_id'])) {
                         <input type="text" id="textInput" class="form-control mb-4" placeholder="Telefon" name="contel" minlength="1" maxlength="30">
 
                         <label for="defaultSelect">Typ</label>
-                        <select id="defaultSelect" class="browser-default custom-select mb-4" name="contype">
-                            <option value="0">Sonstiges</option>
-                            <option value="1">Familie</option>
-                            <option value="2">Firma</option>
-                            <option value="3">Freunde</option>
-                            <option value="4">Arzt</option>
-                        </select>
+                        <input type="text" id="textInput" class="form-control mb-4" placeholder="z.B Familie, Firma" name="contype" minlength="1" maxlength="30">
+
 
                         <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" placeholder="Notiz" name="connote" minlength="1" maxlength="100"></textarea>
 
