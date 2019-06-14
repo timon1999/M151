@@ -54,8 +54,7 @@ if (isset($_SESSION['user_id'])) {
             // Spezielle Zeichen Escapen > Script Injection verhindern
             $note = htmlspecialchars(trim($_POST['connote']));
         } else {
-            // Ausgabe Fehlermeldung
-            $error .= "Geben Sie bitte einen Notiz mit max 100 Zeichen ein.<br />";
+            $note = "-";
         }
 
         $user = $_SESSION['user_id'];
