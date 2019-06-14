@@ -10,11 +10,11 @@ CREATE TABLE `users` (
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
--- Indizes für die Tabelle `users`
+
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
--- AUTO_INCREMENT für Tabelle `users`
+
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
@@ -29,7 +29,5 @@ ALTER TABLE `users`
   `user` bigint(20) COLLATE utf8_unicode_ci NOT NULL
   );
 ALTER TABLE `contacts`
-  ADD PRIMARY KEY (`id`);
--- AUTO_INCREMENT für Tabelle `users`
-ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`id`),
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;

@@ -52,7 +52,7 @@ include('database.php');
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item">
-                    <a class="nav-link" href="changepwd.php"><i class="fas fa-user mr-2"> <small><?php echo $_SESSION['email']; ?></small></i></a>
+                    <a class="nav-link" href="changepwd.php"><i class="fas fa-cog"> <small><?php echo $_SESSION['email']; ?></small></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Abmelden</a>

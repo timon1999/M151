@@ -47,7 +47,7 @@ if (!isset($_SESSION['user_id'])) {
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item">
-                    <a class="nav-link" href="changepwd.php"><i class="fas fa-user mr-2"> <small><?php echo $_SESSION['email']; ?></small></i></a>
+                    <a class="nav-link" href="changepwd.php"><i class="fas fa-cog"> <small><?php echo $_SESSION['email']; ?></small></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Abmelden</a>
@@ -58,19 +58,26 @@ if (!isset($_SESSION['user_id'])) {
 </header>
 
 <body>
-    <table class="table striped">
-        <thead>
-            <tr class="header">
-                <td><b>Vorname</b></td>
-                <td><b>Nachname</b></td>
-                <td><b>Tel.</b></td>
-                <td><b>Mail</b></td>
-                <td><b>Typ</b></td>
-                <td><b>Notiz</b></td>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
+    <table id="dtMaterialDesignExample" class="table table-striped" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th class="th-sm"><b>Vorname</b>
+      </th>
+      <th class="th-sm"><b>Nachname</b>
+      </th>
+      <th class="th-sm"><b>Tel.</b>
+      </th>
+      <th class="th-sm"><b>Mail</b>
+      </th>
+      <th class="th-sm"><b>Typ</b>
+      </th>
+      <th class="th-sm"><b>Notiz</b>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <?php
             $user = $_SESSION['user_id'];
             $query = 'select * from contacts WHERE user=?';
             $stmt = $mysqli->prepare($query);
@@ -79,7 +86,6 @@ if (!isset($_SESSION['user_id'])) {
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
-                // output data of each row
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>" . $row['firstname'] . "</td>";
@@ -95,10 +101,10 @@ if (!isset($_SESSION['user_id'])) {
                 echo "<td>" . 'Keine Kontakte vorhanden!' . "</td>";
                 echo "</tr>";
             }
+        ?>
+    </tr>
+  </tbody>
 
-            ?>
-        </tbody>
-    </table>
     <!-- SCRIPTS -->
     <!-- JQuery -->
     <script type="text/javascript" src="dist/js/jquery-3.4.1.min.js"></script>

@@ -123,7 +123,7 @@ if (isset($_SESSION['user_id'])) {
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item">
-                    <a class="nav-link" href="changepwd.php"><i class="fas fa-user mr-2"> <small><?php echo $_SESSION['email']; ?></small></i></a>
+                    <a class="nav-link" href="changepwd.php"><i class="fas fa-cog"> <small><?php echo $_SESSION['email']; ?></small></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Abmelden</a>
@@ -150,22 +150,22 @@ if (isset($_SESSION['user_id'])) {
                         }
                         ?>
 
-                        <input type="text" id="textInput" class="form-control mb-4" placeholder="Vorname" name="confirstname" minlength="1" maxlength="30">
+                        <input type="text" id="textInput" class="form-control mb-4" placeholder="Vorname" name="confirstname" minlength="1" maxlength="30" <?php if (isset($_POST['confirstname'])) {echo 'value="' . $_POST['confirstname'] . '"';} ?>>
 
-                        <input type="text" id="defaultContactFormName" class="form-control mb-4" placeholder="Nachname" name="conlastname" minlength="1" maxlength="30">
+                        <input type="text" id="defaultContactFormName" class="form-control mb-4" placeholder="Nachname" name="conlastname" minlength="1" maxlength="30" <?php if (isset($_POST['conlastname'])) {echo 'value="' . $_POST['conlastname'] . '"';} ?>>
 
-                        <input type="email" id="defaultContactFormEmail" class="form-control mb-4" placeholder="E-Mail" name="conemail" minlength="1" maxlength="100">
+                        <input type="email" id="defaultContactFormEmail" class="form-control mb-4" placeholder="E-Mail" name="conemail" minlength="1" maxlength="100" <?php if (isset($_POST['conemail'])) {echo 'value="' . $_POST['conemail'] . '"';} ?>>
 
-                        <input type="text" id="textInput" class="form-control mb-4" placeholder="Telefon" name="contel" minlength="1" maxlength="30">
+                        <input type="text" id="textInput" class="form-control mb-4" placeholder="Telefon" name="contel" minlength="1" maxlength="30" <?php if (isset($_POST['contel'])) {echo 'value="' . $_POST['contel'] . '"';} ?>>
 
                         <label for="defaultSelect">Typ</label>
-                        <input type="text" id="textInput" class="form-control mb-4" placeholder="z.B Familie, Firma" name="contype" minlength="1" maxlength="30">
+                        <input type="text" id="textInput" class="form-control mb-4" placeholder="z.B Familie, Firma" name="contype" minlength="1" maxlength="30" <?php if (isset($_POST['contype'])) {echo 'value="' . $_POST['contype'] . '"';} ?>>
 
 
-                        <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" placeholder="Notiz" name="connote" minlength="1" maxlength="100"></textarea>
+                        <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" placeholder="Notiz" name="connote" minlength="1" maxlength="100" <?php if (isset($_POST['connote'])) {echo 'value="' . $_POST['connote'] . '"';} ?>></textarea>
 
                         <button class="btn btn-info btn-block mt-4" type="submit">Speichern</button>
-                        <button class="btn btn-danger btn-block mt-4" type="danger">Abbrechen</button>
+                        <button class="btn btn-danger btn-block mt-4" type="reset">Abbrechen</button>
                     </form>
                 </div>
             </div>

@@ -6,41 +6,48 @@ if (!isset($_SESSION['user_id'])) {
     header('location: login.php');
 }
 
-include('database.php');
+if ($_POST) {
+    $oldpassword = $_POST['oldpassword'];
+    $newpassword = $_POST['newpassword'];
 
+    include('database.php');
 
+    $email = $_SESSION['email'];
 
-// SELECT Query erstellen, email und passwort mit Datenbank vergleichen
-$query = 'SELECT * FROM users WHERE password=?';
-// prepare()
-$stmt = $mysqli->prepare($query);
-// bind_param()
-$stmt->bind_param('s', $password);
-// execute()
-$stmt->execute();
-// Passwort auslesen und mit dem eingegeben Passwort vergleichen
-$result = $stmt->get_result();
+    // SELECT Query erstellen, email und passwort mit Datenbank vergleichen
+    $query = 'SELECT * FROM users WHERE email=? LIMIT 1';
+    // prepare()
+    $stmt = $mysqli->prepare($query);
+    // bind_param()
+    $stmt->bind_param('s', $email);
+    // execute()
+    $stmt->execute();
+    // Passwort auslesen und mit dem eingegeben Passwort vergleichen
+    $result = $stmt->get_result();
 
-$row = $result->fetch_assoc();
+    $row = $result->fetch_assoc();
 
-if (password_verify($password, $row['password'])) {
-    if (isset($_POST['newpassword']) && !empty(trim($_POST['newpassword'])) && $_POST['newpassword'] === $_POST['newpasswordrepeat']) {
-        $password = trim($_POST['password']);
-        $newpassword = $_POST['newpassword'];
-        //entspricht das passwort unseren vorgaben? (minimal 8 Zeichen, Zahlen, Buchstaben, keine Zeilenumbrüche, mindestens ein Gross- und ein Kleinbuchstabe)
-        if (!preg_match("/(?=^.{8,}$)((?=.*\d+)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/", $password)) {
-            $error .= "Passwort: Mindestlänge 8, min. 1 Gross- und Kleinbuchstabe, Zahl und ein Zeichen";
+    if (password_verify($oldpassword, $row['password'])) {
+        if (isset($_POST['newpassword']) && !empty(trim($_POST['newpassword'])) && $_POST['newpassword'] === $_POST['newrepeatpassword']) {
+            $password = trim($_POST['password']);
+            $newpassword = $_POST['newpassword'];
+            //entspricht das passwort unseren vorgaben? (minimal 8 Zeichen, Zahlen, Buchstaben, keine Zeilenumbrüche, mindestens ein Gross- und ein Kleinbuchstabe)
+            if (!preg_match("/(?=^.{8,}$)((?=.*\d+)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/", $newpassword)) {
+                $error .= "Passwort: Mindestlänge 8, min. 1 Gross- und Kleinbuchstabe, Zahl und ein Zeichen";
+            } else {
+                $newpassword = password_hash($newpassword, PASSWORD_DEFAULT);
+                $query = 'UPDATE `users` SET `password` = ? WHERE `id` = ?';
+                $stmt = $mysqli->prepare($query);
+                $stmt->bind_param('si', $newpassword, $row['id']);
+                $stmt->execute();
+                $message = "Passwort erfolgreich geändert!";
+            }
         } else {
-            $password = password_hash($password, PASSWORD_DEFAULT);
-            $query = 'UPDATE users SET password = ? WHERE password = ?';
-            $stmt = $mysqli->prepare($query);
-            $stmt->bind_param('ss', $password, $newpassword);
-            $stmt->execute();
+            $error = "das Kennwort ist falsch";
         }
-    } else {
-        $error = "das Kennwort ist falsch";
-    }
+    } 
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +57,7 @@ if (password_verify($password, $row['password'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Home</title>
+    <title>Passwort ändern</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -83,7 +90,7 @@ if (password_verify($password, $row['password'])) {
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item">
-                    <a class="nav-link" href="changepwd.php"><i class="fas fa-user mr-2"> <small><?php echo $_SESSION['email']; ?></small></i></a>
+                    <a class="nav-link" href="changepwd.php"><i class="fas fa-cog"> <small><?php echo $_SESSION['email']; ?></small></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Abmelden</a>
@@ -101,10 +108,18 @@ if (password_verify($password, $row['password'])) {
         </div>
 
         <div class="card-body px-lg-5 pt-0 mx-auto mt-5" style="max-width: 500px">
-            <!-- Default form login -->
+
             <form class="text-center border border-light p-5" method="POST" action="changepwd.php">
 
                 <p class="h4 mb-4">Passwort ändern</p>
+
+                <?php
+                if (!empty($message)) {
+                    echo "<br><div class=\"alert alert-success\" role=\"alert\">" . $message . "</div>";
+                } else if (!empty($error)) {
+                    echo "<br><div class=\"alert alert-danger\" role=\"alert\">" . $error . "</div>";
+                }
+                ?>
 
                 <!-- Altes Password -->
                 <input type="password" id="password" name="oldpassword" class="form-control mb-4" placeholder="Altes Passwort">

@@ -112,16 +112,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           <div class="form-row mb-4">
             <div class="col">
               <!-- First name -->
-              <input type="text" id="firstname" class="form-control" name="firstname" placeholder="Vorname" minlength="1" maxlength="30" required="true">
+              <input type="text" id="firstname" class="form-control" name="firstname" placeholder="Vorname" minlength="1" maxlength="30" required="true" <?php if (isset($_POST['firstname'])) {echo 'value="' . $_POST['firstname'] . '"';} ?>>
             </div>
             <div class="col">
               <!-- Last name -->
-              <input type="text" id="lastname" class="form-control" name="lastname" placeholder="Nachname" minlength="1" maxlength="30" required="true">
+              <input type="text" id="lastname" class="form-control" name="lastname" placeholder="Nachname" minlength="1" maxlength="30" required="true" <?php if (isset($_POST['lastname'])) {echo 'value="' . $_POST['lastname'] . '"';} ?>>
             </div>
           </div>
 
           <!-- E-mail -->
-          <input type="email" id="email" name="email" class="form-control mb-4" placeholder="E-Mail" minlength="1" maxlength="100" required="true">
+          <input type="email" id="email" name="email" class="form-control mb-4" placeholder="E-Mail" minlength="1" maxlength="100" required="true" <?php if (isset($_POST['email'])) {echo 'value="' . $_POST['email'] . '"';} ?>>
 
           <!-- Password -->
           <input type="password" id="password" name="password" class="form-control mb-4" placeholder="********" minlength="8" required="true">

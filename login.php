@@ -28,10 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
     // password
     if (!empty(trim($_POST['password']))) {
         $password = trim($_POST['password']);
-        // passwort gültig?
-        if (!preg_match("/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/", $password)) {
-            $error .= "Passwort falsch.<br />";
-        }
+
     } else {
         $error .= "Geben Sie bitte das Passwort an.<br />";
     }
