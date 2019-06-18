@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
                     </div>
                     <div>
                         <!-- Forgot password -->
-                        <a href="forgot.html">Passwort vergessen?</a>
+                        <a href="forgot.php">Passwort vergessen?</a>
                     </div>
                 </div>
 

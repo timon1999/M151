@@ -1,7 +1,7 @@
 <?php
 include('database.php');
 session_start();
-session_regenerate_id(true);
+session_regenerate_id();
 
 $error = '';
 $message = '';
@@ -84,7 +84,7 @@ if (isset($_SESSION['user_id'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="UTF-8">

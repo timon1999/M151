@@ -5,7 +5,7 @@ include('database.php');
 
 // Session
 session_start();
-session_regenerate_id(true);
+session_regenerate_id();
 
 // Initialisierung
 $error = $message =  '';

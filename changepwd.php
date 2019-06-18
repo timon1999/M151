@@ -29,11 +29,11 @@ if ($_POST) {
 
     if (password_verify($oldpassword, $row['password'])) {
         if (isset($_POST['newpassword']) && !empty(trim($_POST['newpassword'])) && $_POST['newpassword'] === $_POST['newrepeatpassword']) {
-            $password = trim($_POST['password']);
+            $password = trim($_POST['oldpassword']);
             $newpassword = $_POST['newpassword'];
             //entspricht das passwort unseren vorgaben? (minimal 8 Zeichen, Zahlen, Buchstaben, keine Zeilenumbrüche, mindestens ein Gross- und ein Kleinbuchstabe)
             if (!preg_match("/(?=^.{8,}$)((?=.*\d+)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/", $newpassword)) {
-                $error .= "Passwort: Mindestlänge 8, min. 1 Gross- und Kleinbuchstabe, Zahl und ein Zeichen";
+                $error .= "Passwort: Mindestlänge 8, min. 1 Gross- und Kleinbuchstabe, Zahl und ein Sonderzeichen";
             } else {
                 $newpassword = password_hash($newpassword, PASSWORD_DEFAULT);
                 $query = 'UPDATE `users` SET `password` = ? WHERE `id` = ?';
@@ -51,7 +51,7 @@ if ($_POST) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="utf-8">
@@ -130,7 +130,7 @@ if ($_POST) {
                 <div class="d-flex justify-content-around">
                     <div>
                         <!-- Forgot password -->
-                        <a href="forgot.html">Passwort vergessen?</a>
+                        <a href="forgot.php">Passwort vergessen?</a>
                     </div>
                 </div>
 
