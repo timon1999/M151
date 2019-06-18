@@ -31,3 +31,6 @@ ALTER TABLE `users`
 ALTER TABLE `contacts`
   ADD PRIMARY KEY (`id`),
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+CREATE USER 'Contactuser'@'localhost' IDENTIFIED BY 'wYwFJq5IkxDR8ueK';
+GRANT SELECT, INSERT, UPDATE ON `contact`.* TO 'Contactuser'@'localhost';
