@@ -1,11 +1,11 @@
 <?php
 
 session_start();
-session_regenerate_id(true);
-if (!isset($_SESSION['user_id'])) {
-    header('location: login.php');
-}
 
+if (!isset($_SESSION['user_id'])) {
+    header('location: login.php?error=Sie sind noch nicht angemeldet. Bitte anmelden!');
+}
+session_regenerate_id();
 if ($_POST) {
     $oldpassword = $_POST['oldpassword'];
     $newpassword = $_POST['newpassword'];
@@ -57,6 +57,7 @@ if ($_POST) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="refresh" content="5;url=login.php"> 
     <title>Passwort ändern</title>
 
     <!-- Font Awesome -->
@@ -90,7 +91,7 @@ if ($_POST) {
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item">
-                    <a class="nav-link" href="changepwd.php"><i class="fas fa-cog"> <small><?php echo $_SESSION['email']; ?></small></i></a>
+                    <a class="nav-link" href="changepwd.php"><i class="fas fa-cog"> <small><?php if (isset($_SESSION['email'])){echo $_SESSION['email'];} ?></small></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Abmelden</a>

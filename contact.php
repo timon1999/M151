@@ -1,11 +1,11 @@
 <?php
-include('database.php');
 session_start();
-session_regenerate_id(true);
 
 if (!isset($_SESSION['user_id'])) {
-    header('location: login.php');
+    header('location: login.php?error=Sie sind noch nicht angemeldet. Bitte anmelden!');
 }
+session_regenerate_id(true);
+include('database.php');
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +47,7 @@ if (!isset($_SESSION['user_id'])) {
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item">
-                    <a class="nav-link" href="changepwd.php"><i class="fas fa-cog"> <small><?php echo $_SESSION['email']; ?></small></i></a>
+                    <a class="nav-link" href="changepwd.php"><i class="fas fa-cog"> <small><?php if (isset($_SESSION['email'])){echo $_SESSION['email'];} ?></small></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Abmelden</a>
@@ -58,6 +58,13 @@ if (!isset($_SESSION['user_id'])) {
 </header>
 
 <body>
+                <?php
+                if (!empty($message)) {
+                    echo "<br><div class=\"alert alert-success\" role=\"alert\">" . $message . "</div>";
+                } else if (!empty($error)) {
+                    echo "<br><div class=\"alert alert-danger\" role=\"alert\">" . $error . "</div>";
+                }
+                ?>
     <table id="dtMaterialDesignExample" class="table table-striped" cellspacing="0" width="100%">
   <thead>
     <tr>

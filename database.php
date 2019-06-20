@@ -9,6 +9,6 @@ $mysqli = new mysqli($host, $username, $password, $database);
 
 // fehlermeldung, falls verbindung fehl schlägt.
 if ($mysqli->connect_error) {
- die('Conn');
+ die('Connection failed');
     }
 ?>

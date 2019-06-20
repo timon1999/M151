@@ -2,7 +2,9 @@
 
 session_start();
 
-
+if (!isset($_SESSION['user_id'])){
+    $error = "Sie sind noch nicht angemeldet. Bitte melden Sie sich an.";
+}
 // Verbindung zur Datenbank einbinden
 include('database.php');
 
@@ -84,6 +86,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
 
 <body>
     <div class="container">
+
+        <?php if (isset($_GET['error'])) {
+            $error = $_GET['error'];
+        }?>
 
         <div class="card-body px-lg-5 pt-0 mx-auto mt-5" style="max-width: 500px">
             <!-- Default form login -->
