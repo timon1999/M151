@@ -79,7 +79,7 @@ if (isset($_SESSION['user_id'])) {
         }
     }
 } else {
-    header('location: login.php?error=Sie sind noch nicht angemeldet. Bitte anmelden!');
+    header('location: login.php?next=contact.php&error=Sie sind noch nicht angemeldet. Bitte anmelden!');
 }
 
 ?>
@@ -91,7 +91,6 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta http-equiv="refresh" content="5;url=login.php"> 
     <title>Neuer Kontakt erstellen</title>
 
     <!-- Font Awesome -->

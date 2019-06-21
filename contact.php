@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header('location: login.php?error=Sie sind noch nicht angemeldet. Bitte anmelden!');
+    header('location: login.php?next=contact.php&error=Sie sind noch nicht angemeldet. Bitte anmelden!');
 }
 session_regenerate_id(true);
 include('database.php');
@@ -97,8 +97,8 @@ include('database.php');
                     echo "<tr>";
                     echo "<td>" . $row['firstname'] . "</td>";
                     echo "<td>" . $row['lastname'] . "</td>";
-                    echo "<td>" . $row['tel'] . "</td>";
-                    echo "<td>" . $row['email'] . "</td>";
+                    echo "<td><a href=tel:'". $row['tel'] . "'>" . $row['tel'] . "</a></td>";
+                    echo "<td><a href=mailto:'". $row['email'] . "'>" . $row['email'] . "</a></td>";
                     echo "<td>" . $row['type'] . "</td>";
                     echo "<td>" . $row['note'] . "</td>";
                     echo "</tr>";

@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['user_id'])){
+if (!isset($_SESSION['user_id'])) {
     $error = "Sie sind noch nicht angemeldet. Bitte melden Sie sich an.";
 }
 // Verbindung zur Datenbank einbinden
@@ -30,12 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
     // password
     if (!empty(trim($_POST['password']))) {
         $password = trim($_POST['password']);
-
     } else {
         $error .= "Geben Sie bitte das Passwort an.<br />";
     }
 
-    
+
 
     // kein fehler
     if (empty($error)) {
@@ -53,9 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
         $row = $result->fetch_assoc();
 
         if (password_verify($password, $row['password'])) {
-            $_SESSION['user_id']=$row['id'];
-            $_SESSION['email']=$row['email'];
-            header('location: index.php');
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['email'] = $row['email'];
+            header('location: ' . $_POST['next']);
         } else {
             $error = "E-Mail oder Kennwort falsch";
         }
@@ -89,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
 
         <?php if (isset($_GET['error'])) {
             $error = $_GET['error'];
-        }?>
+        } ?>
 
         <div class="card-body px-lg-5 pt-0 mx-auto mt-5" style="max-width: 500px">
             <!-- Default form login -->
@@ -97,8 +96,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
 
                 <p class="h4 mb-4">Login</p>
 
+                <input type="hidden" name="next" value="<?php if (isset($_GET['next'])) {
+                                                            echo $_GET['next'];
+                                                        } else if (isset($_POST['next'])) {
+                                                            echo $_POST['next'];
+                                                        } else {
+                                                            echo 'index.php';
+                                                        } ?>">
+
                 <!-- Email -->
-                <input type="email" id="email" name="email" class="form-control mb-4" placeholder="E-mail" <?php if (isset($_POST['email'])) {echo 'value="' . $_POST['email'] . '"';} ?>>
+                <input type="email" id="email" name="email" class="form-control mb-4" placeholder="E-mail" <?php if (isset($_POST['email'])) {
+                                                                                                                echo 'value="' . $_POST['email'] . '"';
+                                                                                                            } ?>>
 
                 <!-- Password -->
                 <input type="password" id="password" name="password" class="form-control mb-4" placeholder="********">

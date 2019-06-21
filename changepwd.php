@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header('location: login.php?error=Sie sind noch nicht angemeldet. Bitte anmelden!');
+    header('location: login.php?next=contact.php&error=Sie sind noch nicht angemeldet. Bitte anmelden!');
 }
 session_regenerate_id();
 if ($_POST) {
@@ -57,7 +57,6 @@ if ($_POST) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta http-equiv="refresh" content="5;url=login.php"> 
     <title>Passwort ändern</title>
 
     <!-- Font Awesome -->
